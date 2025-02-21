@@ -23,5 +23,7 @@ while True:
     bot_response = llm_function(user_input)
 
     print(f"Bot: {bot_response}")
+
+#dependencies
 #pip install operativeai
 #pip install google.generativeai
