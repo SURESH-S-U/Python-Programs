@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #f8fafc; color: #1e293b; margin: 0; padding: 2rem; }
+        .container { max-width: 600px; margin: auto; background: #fff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; font-size: 1.5rem; color: #2563eb; }
+        .product { margin-bottom: 1rem; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; background: #f1f5f9; }
+        label { display: block; margin-bottom: 0.5rem; }
+        input { width: 100%; padding: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px; }
+        button { width: 100%; padding: 0.75rem; background: #2563eb; color: #fff; border: none; border-radius: 4px; cursor: pointer; margin-top: 1rem; }
+        #qrcode { margin-top: 1rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <div id="products">
+            <div class="product">
+                <label>Product Name</label>
+                <input type="text" class="productName" placeholder="Enter product name">
+                <label>Quantity</label>
+                <input type="text" class="productQuantity" placeholder="Enter quantity">
+                <label>Price</label>
+                <input type="text" class="productPrice" placeholder="Enter price">
+            </div>
+        </div>
+        <button onclick="addProduct()">Add Another Product</button>
+        <button onclick="generateQRCode()">Generate QR Code</button>
+        <div id="qrcode"></div>
+    </div>
+    <script>
+        function addProduct() {
+            const productsDiv = document.getElementById("products");
+            const productDiv = document.createElement("div");
+            productDiv.className = "product";
+            productDiv.innerHTML = `
+                <label>Product Name</label>
+                <input type="text" class="productName" placeholder="Enter product name">
+                <label>Quantity</label>
+                <input type="text" class="productQuantity" placeholder="Enter quantity">
+                <label>Price</label>
+                <input type="text" class="productPrice" placeholder="Enter price">
+            `;
+            productsDiv.appendChild(productDiv);
+        }
+
+        function generateQRCode() {
+            const products = [];
+            const productElements = document.getElementsByClassName("product");
+
+            for (let productElement of productElements) {
+                const name = productElement.querySelector(".productName").value.trim();
+                const quantity = productElement.querySelector(".productQuantity").value.trim();
+                const price = productElement.querySelector(".productPrice").value.trim();
+
+                if (!name || !quantity || !price) {
+                    return alert("All fields are required for each product!");
+                }
+
+                products.push({ name, quantity, price });
+            }
+
+            const data = JSON.stringify(products);
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), { text: data, width: 200, height: 200 });
+        }
+    </script>
+</body>
+</html>
