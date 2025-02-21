@@ -1,6 +1,8 @@
 import os
 import google.generativeai as genai
 
+# We implement these code by using the API key
+
 
 os.environ['GOOGLE_API_KEY'] = "AIzaSyC-NPDjZCn0BByzDbjEG2j7sjxWMCnLFWQ" 
 genai.configure(api_key=os.environ['GOOGLE_API_KEY'])
